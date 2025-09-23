@@ -1,0 +1,67 @@
+# Maintainer: Michel RosM <michel.rosm@gmail.com>
+pkgname=zen-browser
+pkgver=1.16b
+pkgrel=1
+pkgdesc="Firefox-based browser with the aim of pushing your productivity to a new level!"
+arch=(x86_64)
+url="https://github.com/zen-browser/desktop"
+license=(MPL-2.0)
+depends=(
+  alsa-lib
+  at-spi2-core
+  bash
+  cairo
+  dbus
+  ffmpeg
+  fontconfig
+  freetype2
+  gcc-libs
+  gdk-pixbuf2
+  glib2
+  glibc
+  gtk3
+  hicolor-icon-theme
+  libpulse
+  libx11
+  libxcb
+  libxcomposite
+  libxdamage
+  libxext
+  libxfixes
+  libxrandr
+  libxss
+  libxt
+  mime-types
+  nspr
+  nss
+  pango
+  ttf-font
+)
+optdepends=(
+  'hunspell-en_US: Spell checking, American English'
+  'libnotify: Notification integration'
+  'networkmanager: Location detection via available WiFi networks'
+  'speech-dispatcher: Text-to-Speech'
+  'xdg-desktop-portal: Screensharing with Wayland'
+)
+options=(!strip)
+
+source=(
+    ${pkgname}.tar.xz::https://github.com/zen-browser/desktop/releases/download/${pkgver}/zen.linux-x86_64.tar.xz
+    ${pkgname}.desktop
+)
+sha256sums=(
+    '0ac167604da447bef9a90e8cdf537f359cb2fe95a1cfe2f72a66966b7c3e5209'
+    'SKIP'
+)
+
+package() {
+    mkdir -p "$pkgdir/opt/$pkgname"
+    mkdir -p "$pkgdir/usr/bin"
+    mkdir -p "$pkgdir/usr/share/applications"
+
+    cp -rpv "$srcdir"/zen/* "$pkgdir/opt/$pkgname/"
+    install -Dvm644 "$srcdir/zen-browser.desktop" "$pkgdir/usr/share/applications/zen-browser.desktop"
+
+    ln -s "/opt/$pkgname/zen" "$pkgdir/usr/bin/zen-browser"
+}

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Zen Browser
+Comment=Zen is a firefox-based browser with the aim of pushing your productivity to a new level!
+Exec=/usr/bin/zen-browser %u
+Icon=/opt/zen-browser/browser/chrome/icons/default/default64.png
+Type=Application
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;application/x-xpinstall;application/pdf;application/json;
+StartupWMClass=zen
+Categories=Network;WebBrowser;
+StartupNotify=true
+Terminal=false
+X-MultipleArgs=false
+Keywords=Internet;WWW;Browser;Web;Explorer;
