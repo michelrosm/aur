@@ -1,0 +1,107 @@
+# Maintainer: Michel RosM <michel.rosm@gmail.com>
+pkgname='ausreichend'
+pkgver='v1.0.0'
+pkgrel=1
+pkgdesc='Conjunto de plugins seleccionados para Neovim.'
+arch=('x86_64')
+url="https://codeberg.org/michelrosm/ausreichend"
+license=('GPL-3.0-or-later')
+depends=(
+    'neovim<0.12.0'
+    neovim-lspconfig
+    curl
+    fish
+    git
+    fzf
+    fd
+    jq
+    ripgrep
+    python-black
+    stylua
+    python-pynvim
+    tree-sitter-cli
+    lua-language-server
+    pyright
+    rust-analyzer
+)
+optdepends=(xclip wl-clipboard neovide nodejs deno rust)
+makedepends=(rustup)
+options=(!lto)
+source=(
+    "$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+    'blink-cmp_libfuzzy-path.patch'
+    'blink-cmp.tar.gz::https://api.github.com/repos/Saghen/blink.cmp/tarball/bae4bae0eedd1fa55f34b685862e94a222d5c6f8'  # v1.6.0
+    'ccc-nvim.tar.gz::https://api.github.com/repos/uga-rosa/ccc.nvim/tarball/1283eef5494c092a047baa34ed3e667f3cb2715e'  # v2.0.3
+    'colorful-menu-nvim.tar.gz::https://api.github.com/repos/xzbdmw/colorful-menu.nvim/tarball/bc3e82609f2fcf7dad7ca87c20e65e51d5d9d87c'
+    'conform-nvim.tar.gz::https://api.github.com/repos/stevearc/conform.nvim/tarball/a6f5bdb78caa305496357d17e962bbc4c0b392e2'  # v9.0.0
+    'fugitive-vim.tar.gz::https://api.github.com/repos/tpope/vim-fugitive/tarball/96c1009fcf8ce60161cc938d149dd5a66d570756'  # v3.7
+    'fzf-lua.tar.gz::https://api.github.com/repos/ibhagwan/fzf-lua/tarball/13513d6535a5dbc06b590d4c7fdeef1d5e18a5d4'
+    'indent-blankline-nvim.tar.gz::https://api.github.com/repos/lukas-reineke/indent-blankline.nvim/tarball/005b56001b2cb30bfa61b7986bc50657816ba4ba'  # v3.9.0
+    'lualine-nvim.tar.gz::https://api.github.com/repos/nvim-lualine/lualine.nvim/tarball/b8c23159c0161f4b89196f74ee3a6d02cdc3a955'
+    'nvim-autopairs.tar.gz::https://api.github.com/repos/windwp/nvim-autopairs/tarball/23320e75953ac82e559c610bec5a90d9c6dfa743'
+    'nvim-surround.tar.gz::https://api.github.com/repos/kylechui/nvim-surround/tarball/d56752df477ebd808cb82cea2fc68cf7455abb21'  # v3.1.5
+    'nvim-treesitter.tar.gz::https://api.github.com/repos/nvim-treesitter/nvim-treesitter/tarball/42fc28ba918343ebfd5565147a42a26580579482'  # v0.10.0
+    'nvim-web-devicons.tar.gz::https://api.github.com/repos/nvim-tree/nvim-web-devicons/tarball/c2599a81ecabaae07c49ff9b45dcd032a8d90f1a'
+    'oil-nvim.tar.gz::https://api.github.com/repos/stevearc/oil.nvim/tarball/975a77cce3c8cb742bc1b3629f4328f5ca977dad'  # v2.15.0
+    'onedark-nvim.tar.gz::https://api.github.com/repos/navarasu/onedark.nvim/tarball/de495fabe171d48aed5525f002d14414efcecbb2'
+    'tabout-nvim.tar.gz::https://api.github.com/repos/abecodes/tabout.nvim/tarball/9a3499480a8e53dcaa665e2836f287e3b7764009'
+)
+sha256sums=(
+    SKIP
+    SKIP
+    '3c99e576dfad6b1f0ade3ff8306a6649a04ede4d78fc227049c54dd697d81cfc'
+    '3217766c0035dcd698e3ab347518529e64e9ef25f66c6b660ab70048bedae68e'
+    'b4323103b24b875e02560017807d4816e886386ba2cae3d52010a179b32f0957'
+    '6873dd1fc4e2fde68225592cd8b9afc75858c05958a3910a1c3ad2b7951a7d41'
+    'bfb44787a18b8fe3c75754303f965b5e2a797acfd8cc1579bfc1e1b9df1bc79e'
+    '3ba906b960f96ef1920b0b52cdb4aad9063993b0b36e5fd6b2b1d78c6b9182d6'
+    '647429b3390424ac1afaa06df4d654b450ea316a572c7b2deb84003003c165ca'
+    'c9bd9445b0929f8c4f9155e58ebbaeb77baadbd62e485827b052384c836d69ff'
+    '3ccf5655b18c350e5b5c7727ce5743a5f2ea5fd496b78dab002d5dc77b12f256'
+    '732373464070e6ddb41ef9fa605b591a17bfd26dba0114b120eca52018cf3f89'
+    'c4c51304eeed9fa9e8344da19465c47f853dd5cf1e35be7c6309b584344fe214'
+    'e876ad78d95b60e310b6098cb6ad07c8989b129c6b973d1f6404d7eeb27ebdca'
+    '348351d62d3c2310ccdeb49edd52169165e1dc1363ac114d7f52bc5ae2193bb7'
+    '8d4e867751eca0356142d0bb3f0084c1901f0580e54f5066327e075566fe7b11'
+    '74d82b2a38ff6232c8e3e0a9d4f0ae9f1e72247358aedf90dfeff88262bd52f0'
+)
+noextract=("${source[@]%%::*}")
+
+prepare() {
+    for file in *.tar.gz; do
+        if [[ "$file" == "$pkgname-$pkgver.tar.gz" ]]; then
+            tar -f "$pkgname-$pkgver.tar.gz" -x
+            continue
+        fi
+        rootdir_tarball_name=$(tar -f "$file" --list | head -n1 | sed 's|/$||')
+        normalized_name=$(echo "$file" | cut -d'.' -f1)
+        tar -f "$file" -x --transform "s|$rootdir_tarball_name|$normalized_name|"
+        rm -rf "$srcdir/$normalized_name"/.{git,github}
+    done
+
+    # blink-cmp fuzzy binary, lua cpath force location in /usr/lib/ausreichend.
+    patch -Np1 "$srcdir/blink-cmp/lua/blink/cmp/fuzzy/rust/init.lua" "$srcdir/blink-cmp_libfuzzy-path.patch"
+}
+
+build() {
+    # blink-cmp fuzzy binary compilation.
+    rustup default nightly
+    cd blink-cmp
+    RUSTFLAGS='-C target-cpu=native' cargo +nightly build --release
+    mv target/release/libblink_cmp_fuzzy.so "$srcdir"
+    rm -rf target
+}
+
+package() {
+    _nvim_packdir="$pkgdir/usr/share/nvim/$pkgname/pack"  # Neovim plugins in not runtime path.
+    _nvim_plugindir="$pkgdir/usr/share/nvim/site/plugin"  # Configuration and plugin loader.
+    _system_libdir="$pkgdir/usr/lib/$pkgname"  # Libraries dependences of plugins.
+
+    mkdir -p "$_nvim_packdir" "$_nvim_plugindir" "$_system_libdir"
+
+    cp "$srcdir/$pkgname/src/$pkgname.lua" "$_nvim_plugindir"
+    find "$srcdir/" -mindepth 1 -maxdepth 1 -type d ! -name "$pkgdir" -exec cp -r "{}" "$_nvim_packdir" ';'
+    for file in "$srcdir"/*.so; do
+        cp "$file" "$_system_libdir"
+    done
+}

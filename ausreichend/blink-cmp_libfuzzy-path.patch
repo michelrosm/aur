@@ -1,0 +1,26 @@
+--- upstream_init.lua	2025-08-18 21:28:24.145264410 -0300
++++ patched_init.lua	2025-08-18 21:30:12.669672801 -0300
+@@ -1,20 +1,8 @@
+---- @return string
+-local function get_lib_extension()
+-  if jit.os:lower() == 'mac' or jit.os:lower() == 'osx' then return '.dylib' end
+-  if jit.os:lower() == 'windows' then return '.dll' end
+-  return '.so'
+-end
+-
+--- search for the lib in the /target/release directory with and without the lib prefix
+--- since MSVC doesn't include the prefix
++-- Force to search fuzzy library in /usr/lib system directory as ausreichend/libblink_cmp_fuzzy.so.
+ package.cpath = package.cpath
+   .. ';'
+-  .. debug.getinfo(1).source:match('@?(.*/)')
+-  .. '../../../../../target/release/lib?'
+-  .. get_lib_extension()
++  .. '/usr/lib/ausreichend/libblink_cmp_fuzzy.so'
+   .. ';'
+-  .. debug.getinfo(1).source:match('@?(.*/)')
+-  .. '../../../../../target/release/?'
+-  .. get_lib_extension()
++  .. '/usr/lib/ausreichend/libblink_cmp_fuzzy'
+ 
+ return require('blink_cmp_fuzzy')
